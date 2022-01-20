@@ -19,41 +19,12 @@ public class Task1277 {
 
     public int countSquares(int[][] matrix) {
         int res = 0;
-
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[0].length; j++) {
-                if (matrix[i][j] == 1)
-                    res++;
-            }
-        }
-
-        for (int i = 1; i < matrix.length; i++) {
-            matrix[i][0] += matrix[i-1][0];
-        }
-
-        for (int i = 1; i < matrix[0].length; i++) {
-            matrix[0][i] += matrix[0][i-1];
-        }
-
-        for (int i = 1; i < matrix.length; i++) {
-            for (int j = 1; j < matrix[0].length; j++) {
-                matrix[i][j] += matrix[i-1][j] + matrix[i][j-1] - matrix[i-1][j-1];
-            }
-        }
-
-        for (int side = 2; side <= Math.min(matrix.length, matrix[0].length); side++) {
-            for (int i = 0; i < matrix.length; i++) {
-                for (int j = 0; j < matrix[0].length; j++) {
-                    if (i-side >= 0
-                            && j-side >= 0
-                            && matrix[i][j] - matrix[i-side][j] - matrix[i][j-side] + matrix[i-side][j-side] == side * side)
-                        res++;
-                    else if (i - side >= 0 && j-side < 0 && matrix[i][j] - matrix[i-side][j] == side * side){
-                        res++;
-                    } else if (j-side >= 0 && i-side < 0 && matrix[i][j] - matrix[i][j-side] == side * side){
-                        res++;
-                    }
+                if (i > 0 && j > 0 && matrix[i][j] > 0) {
+                    matrix[i][j] = 1 + Math.min(matrix[i - 1][j - 1], Math.min(matrix[i - 1][j], matrix[i][j - 1]));
                 }
+                res += matrix[i][j];
             }
         }
         return res;
