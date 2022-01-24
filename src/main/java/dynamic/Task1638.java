@@ -25,7 +25,6 @@ public class Task1638 {
                 }
             }
         }
-
         return res;
     }
 
