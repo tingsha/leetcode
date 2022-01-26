@@ -15,18 +15,7 @@ public class Task1710 {
 
     public int maximumUnits(int[][] boxTypes, int truckSize) {
         int res = 0;
-        boolean sorted = false;
-        while (!sorted){
-            sorted = true;
-            for (int i = 0; i < boxTypes.length-1; i++) {
-                if (boxTypes[i][1] < boxTypes[i+1][1]){
-                    int[] temp = boxTypes[i];
-                    boxTypes[i] = boxTypes[i+1];
-                    boxTypes[i+1] = temp;
-                    sorted = false;
-                }
-            }
-        }
+        quickSort(boxTypes);
 
         for (int[] box : boxTypes){
             res += Math.min(truckSize, box[0]) * box[1];
@@ -34,5 +23,32 @@ public class Task1710 {
         }
 
         return res;
+    }
+
+    public void quickSort(int[][] array){
+        quickSort(array, 0, array.length-1);
+    }
+
+    public void quickSort(int[][] array, int start, int end){
+        if (start == end)
+            return;
+
+        int pointer = start;
+
+        for (int i = start; i < end; i++) {
+            if (array[i][1] > array[end][1]){
+                swap(array, i, pointer);
+                pointer++;
+            }
+        }
+        swap(array, pointer, end);
+        if (pointer < end) quickSort(array, pointer+1, end);
+        if (pointer > start) quickSort(array, start, pointer-1);
+    }
+
+    public void swap(int[][] array, int i, int j){
+        int[] temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
     }
 }
